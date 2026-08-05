@@ -30,7 +30,7 @@ TOOLS_MAP = {func.__name__: func for func in ALL_TOOLS}
 
 
 class LLMClient:
-    def __init__(self, provider: str = "gemini"):
+    def __init__(self, provider: str = "anthropic"):
         self.provider = provider
         
         if provider == "openai":
@@ -58,12 +58,11 @@ class LLMClient:
     ) -> str:
 
         if self.provider == "anthropic":
-            model = model_name or "claude-haiku-4-5-20251001"
             working_messages = list(messages)
 
             while True:
                 params: Dict[str, Any] = {
-                    "model": model,
+                    "model": model_name,
                     "max_tokens": 4000,
                     "system": system_prompt,
                     "messages": working_messages,
@@ -82,7 +81,7 @@ class LLMClient:
 
                 log_raw_interaction(
                     provider="anthropic",
-                    model=model,
+                    model=model_name,
                     request_data=params,
                     response_data=response
                 )
@@ -123,9 +122,7 @@ class LLMClient:
 
             return self._extract_anthropic_text(response)
 
-        elif self.provider == "gemini":
-            model = model_name or "gemini-2.0-flash"
-            
+        elif self.provider == "gemini":            
             formatted_contents = []
             for m in messages:
                 role = "user" if m["role"] == "user" else "model"
@@ -138,45 +135,56 @@ class LLMClient:
             }
 
             response = self.client.models.generate_content(
-                model=model,
+                model=model_name,
                 contents=formatted_contents,
                 config=request_config
             )
 
             log_raw_interaction(
                 provider="gemini",
-                model=model,
+                model=model_name,
                 request_data={"contents": formatted_contents, "config": str(request_config)},
                 response_data=response
             )
 
             if response.function_calls:
-                results = []
+                tool_results = []
                 for call in response.function_calls:
                     fn_name = call.name
                     args = call.args
                     if fn_name in TOOLS_MAP:
-                        res = TOOLS_MAP[fn_name](**args)
-                        results.append(f"[Tool Executed: {fn_name}]\n{res}")
+                        try:
+                            res = TOOLS_MAP[fn_name](**args)
+                            tool_results.append(f"[Tool Executed: {fn_name}]\n{res}")
+                        except Exception as e:
+                            tool_results.append(f"[Tool Error ({fn_name})]: {e}")
                     else:
-                        results.append(f"[Tool Error]: Unknown function '{fn_name}'")
-                return "\n\n".join(results)
+                        tool_results.append(f"[Tool Error]: Unknown function '{fn_name}'")
+                
+                tool_context = "\n\n".join(tool_results)
+                formatted_contents.append({"role": "model", "parts": [{"text": f"Called tools with results:\n{tool_context}"}]})
+                
+                final_response = self.client.models.generate_content(
+                    model=model_name,
+                    contents=formatted_contents,
+                    config=request_config
+                )
+                return final_response.text or "Done."
 
             return response.text or "Done."
 
         elif self.provider == "openai":
-            model = model_name or "gpt-4o"
             formatted_messages = [{"role": "system", "content": system_prompt}] + messages
             
             response = self.client.chat.completions.create(
-                model=model,
+                model=model_name,
                 messages=formatted_messages,
                 temperature=temperature,
             )
 
             log_raw_interaction(
                 provider="openai",
-                model=model,
+                model=model_name,
                 request_data={"messages": formatted_messages},
                 response_data=response
             )

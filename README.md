@@ -47,7 +47,7 @@ Before running the project, you need to set up your environment variables with y
 
 ### Basic Usage
 
-To run the project with the default provider (Gemini):
+To run the project with the default provider:
 
 ```bash
 python3 main.py
@@ -63,7 +63,7 @@ python3 main.py -p anthropic
 
 ### Available Providers
 
-- **gemini** (default) - Google's Gemini model
+- **gemini** - Google's Gemini model
 - **anthropic** - Anthropic's Claude model
 - **openai** - OpenAI's GPT model
 
@@ -76,7 +76,7 @@ python3 main.py -p anthropic
 # Use OpenAI GPT
 python3 main.py -p openai
 
-# Use default Gemini
+# Use default (currently **anthropic**, can be changed in the future)
 python3 main.py
 ```
 

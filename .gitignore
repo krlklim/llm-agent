@@ -1,3 +1,5 @@
 .env
 memory/*
 logs/*
+__pycache__/*
+*.pyc
