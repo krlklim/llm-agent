@@ -1,5 +1,8 @@
 import argparse
 from datetime import datetime
+from prompt_toolkit import prompt
+from prompt_toolkit.formatted_text import HTML
+from prompt_toolkit.history import InMemoryHistory
 from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt
@@ -11,6 +14,7 @@ from app.context import build_system_prompt
 from app.llm import LLMClient
 
 console = Console()
+input_history = InMemoryHistory()
 
 DEFAULT_MODELS = {
     "anthropic": "claude-haiku-4-5-20251001",
@@ -47,11 +51,13 @@ def main():
     selected_provider = args.provider
     current_model = DEFAULT_MODELS.get(selected_provider, "claude-haiku-4-5-20251001")
 
+    # TODO: console.clear() if u need to clean console
+
     console.print(Panel.fit(
         f"[bold green]AI Assistant CLI Initialized[/bold green]\n"
         f"[bold yellow]Active Provider: {selected_provider.upper()}[/bold yellow]\n"
         f"[bold cyan]Active Model: {current_model}[/bold cyan]\n"
-        "[dim]Tools: Web Search, Page Fetch, YouTube Transcript, File Manager, User Memory[/dim]",
+        "[dim]Tools: Web Search, Page Fetch, YouTube Transcript, File Manager, User Memory, Emailing etc.[/dim]",
         title="Agent Environment"
     ))
     
@@ -67,7 +73,14 @@ def main():
 
     while True:
         try:
-            user_input = Prompt.ask("\n[bold cyan]You[/bold cyan]").strip()
+            user_input = prompt(
+                HTML("<cyan><b>You</b></cyan>: "), 
+                history=input_history
+            ).strip()
+
+            if not user_input:
+                continue
+
             if not user_input:
                 continue
 
@@ -103,7 +116,7 @@ def main():
                                       "/current_model", 
                                       "/model", 
                                       "/current_provider", 
-                                      "/provider]"]:
+                                      "/provider"]:
                 console.print(
                     f"[bold yellow]Provider:[/bold yellow] {selected_provider.upper()} | "
                     f"[bold cyan]Model:[/bold cyan] {current_model}"

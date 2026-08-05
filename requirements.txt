@@ -6,6 +6,7 @@ google-genai>=0.1.0
 # Environment & CLI UI
 python-dotenv>=1.0.0
 rich>=13.7.0
+prompt_toolkit
 
 # Web, Search & Media Tools
 youtube-transcript-api>=0.6.1

@@ -63,6 +63,28 @@ ANTHROPIC_FUNCTION_TOOLS = [
             },
             "required": ["url_or_video_id"]
         }
+    },
+    {
+        "name": "send_email",
+        "description": "Sends an email to a target recipient. Make sure the subject is concise and relevant, and the body is fully composed, formatted, and contains polite sign-offs before calling this tool.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "to_email": {
+                    "type": "string",
+                    "description": "Recipient email address (e.g., 'example@ex.com')."
+                },
+                "subject": {
+                    "type": "string",
+                    "description": "Clear, professional, and context-appropriate email subject line."
+                },
+                "body": {
+                    "type": "string",
+                    "description": "The complete, formatted body of the email including greetings, main content, sign-off with user's name, and optional watermark."
+                }
+            },
+            "required": ["to_email", "subject", "body"]
+        }
     }
 ]
 

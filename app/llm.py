@@ -13,6 +13,7 @@ from app.tools.web_tools import (
     fetch_web_page,
     get_youtube_transcript,
 )
+from app.tools.email_tools import send_email
 from app.tools.schemas import ALL_ANTHROPIC_TOOLS
 from app.logger import log_raw_interaction
 
@@ -24,6 +25,7 @@ ALL_TOOLS = [
     google_web_search,
     fetch_web_page,
     get_youtube_transcript,
+    send_email,
 ]
 
 TOOLS_MAP = {func.__name__: func for func in ALL_TOOLS}
