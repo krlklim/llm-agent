@@ -10,7 +10,9 @@ SYSTEM_DIR = BASE_DIR / "system"
 MEMORY_DIR = BASE_DIR / "memory"
 PERSONAL_DIR = BASE_DIR / "personal"
 PERSONAL_USER_FILE = PERSONAL_DIR / "PERSONAL_USER_INFO.md"
+LOGS_DIR = BASE_DIR / "logs"
 
+LOGS_DIR.mkdir(exist_ok=True)
 MEMORY_DIR.mkdir(exist_ok=True)
 
 PERSONAL_DIR.mkdir(parents=True, exist_ok=True)

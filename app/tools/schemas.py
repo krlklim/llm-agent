@@ -114,7 +114,28 @@ ANTHROPIC_FUNCTION_TOOLS = [
             },
             "required": ["to_email", "subject", "body"]
         }
-    }
+    },
+    {
+        "name": "read_logs",
+        "description": (
+            "Reads recent log entries from the latest file in the logs/ directory. "
+            "Use this tool when an execution fails, a tool returns an unexpected error, "
+            "or when asked to inspect application logs to diagnose issues."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "lines": {
+                    "type": "integer",
+                    "description": "Number of lines to read from the end of the log file. Default is 250 (optimal for capturing 1-2 recent API request/response blocks)."
+                },
+                "level": {
+                    "type": "string",
+                    "description": "Optional keyword or log level to filter entries (e.g., 'ERROR', 'Exception', 'WARNING', 'tool_result')."
+                }
+            }
+        }
+    },
 ]
 
 ALL_ANTHROPIC_TOOLS = ANTHROPIC_SERVER_TOOLS + ANTHROPIC_FUNCTION_TOOLS

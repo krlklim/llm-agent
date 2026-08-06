@@ -1,4 +1,3 @@
-# app/tools/web_tools.py
 import re
 import requests
 from bs4 import BeautifulSoup

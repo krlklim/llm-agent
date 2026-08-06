@@ -1,3 +1,9 @@
+# TODO: Integrate MCP architecture.
+# Possibly what I will (need) to do:
+# 1. Wrap local tools (file_tools, log_tools, profile) into a FastMCP server.
+# 2. Update MCPClient to dynamically load schemas via list_tools() instead of static schemas.py.
+# 3. Add AsyncExitStack orchestrator to support connecting external MCP servers (GitHub, Postgres, etc.).
+
 import argparse
 from datetime import datetime
 from prompt_toolkit import prompt
@@ -124,13 +130,14 @@ def main():
             [bold yellow]2. File Operations & Code Management[/bold yellow]
                [green]read_file[/green]: Read source code, documentation, and configuration files within the project.
                [green]write_file[/green]: Create new files or update existing ones.
+               [green]read_logs[/green]: Read recent application logs to diagnose errors, failed API calls, or execution issues.
 
             [bold yellow]3. Email Dispatch[/bold yellow]
                [green]send_email[/green]: Compose and send emails via SMTP (supports plain text and responsive HTML).
 
             [bold yellow]4. Memory & Knowledge Base[/bold yellow]
-               • [green]update_user_profile[/green]: Automatically record new facts, preferences, and tech stack in `USER.md`.
-               • [green]Memory Logging[/green]: Log context, active tasks, and decisions into daily memory files.
+               [green]update_user_profile[/green]: Automatically record new facts, preferences, and tech stack in `USER.md`.
+               [green]Memory Logging[/green]: Log context, active tasks, and decisions into daily memory files.
             """))
                 continue
 

@@ -1,4 +1,3 @@
-# app/llm.py
 import json
 from typing import List, Dict, Any, Optional
 from openai import OpenAI
@@ -6,7 +5,8 @@ from anthropic import Anthropic
 from google import genai
 
 from app.config import OPENAI_API_KEY, ANTHROPIC_API_KEY, GEMINI_API_KEY
-from app.tools.file_system import read_file, write_file, update_user_profile
+from app.tools.file_tools import read_file, write_file, update_user_profile
+from app.tools.log_tools import read_logs
 from app.tools.web_tools import (
     duckduckgo_web_search,
     google_web_search,
@@ -26,6 +26,7 @@ ALL_TOOLS = [
     fetch_web_page,
     get_youtube_transcript,
     send_email,
+    read_logs
 ]
 
 TOOLS_MAP = {func.__name__: func for func in ALL_TOOLS}
