@@ -41,13 +41,42 @@ ANTHROPIC_FUNCTION_TOOLS = [
     },
     {
         "name": "update_user_profile",
-        "description": "Immediately saves a new personal preference, trait, fact, or tech stack detail about the user into system/USER.md.",
+        "description": (
+            "Immediately saves a new preference, trait, fact, or tech stack detail about the user. "
+            "Supports separating sensitive/private details (saved in personal/PERSONAL_USER_INFO.md) "
+            "from general/public info (saved in system/USER.md), and marking high-priority facts."
+        ),
         "input_schema": {
             "type": "object",
             "properties": {
                 "fact": {
                     "type": "string",
-                    "description": "The new fact or preference about the user (e.g., 'Likes pizza', 'Uses Ruby on Rails')."
+                    "description": "The new fact or preference about the user (e.g., 'Uses Ruby on Rails', 'Full Name: Kiryl Klimovich')."
+                },
+                "is_private": {
+                    "type": "boolean",
+                    "description": (
+                        "Set to TRUE for sensitive, private, or confidential information (saved to personal/PERSONAL_USER_INFO.md).\n"
+                        "EXAMPLES OF PRIVATE INFO:\n"
+                        "- Identity & Legal: Full legal name, date of birth, passport/ID numbers.\n"
+                        "- Contact & Financial: Phone numbers, personal home addresses, bank accounts/cards.\n"
+                        "- Health & Well-being: Medical diagnoses, allergies, personal state or mood.\n"
+                        "- Private Context: Personal correspondence, sensitive family/relationship details.\n\n"
+                        "Set to FALSE for general public or professional info (saved to system/USER.md).\n"
+                        "EXAMPLES OF PUBLIC INFO:\n"
+                        "- Professional: Tech stack, programming languages, code guidelines, work roles.\n"
+                        "- General Hobbies/Pets: 'Has a dog named Miki', 'Loves pizza', 'Enjoys cycling and swimming'."
+                    )
+                },
+                "is_important": {
+                    "type": "boolean",
+                    "description": (
+                        "Set to TRUE for critical, high-priority context, sensitive identifiers, or user instructions marked as vital.\n"
+                        "EXAMPLES OF CRITICAL/IMPORTANT FACTS:\n"
+                        "- Health alerts (e.g., 'Has asthma, needs daily medicine reminders').\n"
+                        "- Crucial identifiers (Full name, passport number, primary phone number).\n"
+                        "- Explicit user requests (e.g., 'Remember this, it is very important: ...')."
+                    )
                 }
             },
             "required": ["fact"]

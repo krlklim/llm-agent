@@ -3,3 +3,4 @@ memory/*
 logs/*
 __pycache__/*
 *.pyc
+personal/*

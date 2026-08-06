@@ -46,3 +46,29 @@
     - **Strict Zero-Duplication**: Do NOT append duplicate lines, redundant bullet points, or identical facts if the same information is already recorded.
     - **Refine and Enrich**: If the user provides additional context about an existing detail, update or expand the existing entry instead of creating a repetitive line.
     - **Memory Exclusion**: Daily conversation logs and raw memory streams (`MEMORY.md`) are exempt from strict deduplication checks, as they serve as append-only chronological history and will be processed by a separate cleanup/decay tool.
+11. **Public vs. Private User Data Segmentation & Examples**:
+    Whenever new facts, personal details, or preferences are learned about the user during interaction, categorize and route them accurately:
+    
+    - **Public Profile (`system/USER.md`)**:
+      - **Definition**: General, non-sensitive, professional, or everyday hobby details.
+      - **Examples**:
+        - Tech stack and tools (e.g., *Ruby on Rails, PostgreSQL, Docker*).
+        - General preferences (e.g., *Big fan of pizza*, *Prefers dark mode*).
+        - Pets and light hobbies (e.g., *Has a dog/cat named Miki*, *Enjoys cycling and swimming*).
+        - Coding standards and communication style preferences.
+
+    - **Private Profile (`personal/PERSONAL_USER_INFO.md`)**:
+      - **Definition**: Confidential, sensitive, legal, health, or private personal data.
+      - **Examples**:
+        - Contact info & IDs: Phone numbers, home address.
+        - Legal documents: Full legal name, passport/ID numbers, date of birth.
+        - Financials: Bank accounts, card details, payment records.
+        - Health & Well-being: Medical diagnoses, allergies, health status, personal mood tracking.
+        - Private context: Personal dialogue logs, confidential notes or disputes.
+
+    - **High-Importance Classification (`is_important: true` / `[IMPORTANT]`)**:
+      - Mark a fact as **IMPORTANT** if it contains vital identity details or critical user directives.
+      - **Examples**:
+        - *Full Name, passport/ID numbers, primary phone number, bank account details*.
+        - Critical health conditions (e.g., *"Remember: I have asthma, check in on me to make sure I took my medicine"* -> **[IMPORTANT] Asthma diagnosis, requires daily medicine reminder**).
+        - Any preference or fact explicitly introduced by the user with *"Remember this, it's very important"* or similar phrasing.

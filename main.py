@@ -90,10 +90,13 @@ def main():
 
             if user_input.lower() in ["/help", "/h"]:
                 console.print(dedent("""
-            [bold cyan]Available commands:[/bold cyan]
+            [bold cyan]📖 Help & Available Commands:[/bold cyan]
 
             [green]/exit, /quit, /q or Ctrl+C[/green]
             Exit the application.
+
+            [green]/tools, /t[/green]
+            Show available agent tools and capabilities.
 
             [green]/set_provider <gemini | anthropic | openai>[/green]
             Change the active LLM provider.
@@ -106,6 +109,28 @@ def main():
 
             [green]/help, /h[/green]
             Show this help message.
+            """))
+                continue
+
+            if user_input.lower() in ["/tools", "/t"]:
+                console.print(dedent("""
+            [bold cyan]🛠️  Available Agent Tools & Capabilities:[/bold cyan]
+
+            [bold yellow]1. Web Search & Scraping[/bold yellow]
+               [green]google_web_search / duckduckgo_web_search / anthropic_web_search[/green]: Search for up-to-date information and news online.
+               [green]fetch_web_page[/green]: Read and extract clean content from web pages by URL.
+               [green]get_youtube_transcript[/green]: Fetch available subtitles/transcripts from YouTube videos.
+
+            [bold yellow]2. File Operations & Code Management[/bold yellow]
+               [green]read_file[/green]: Read source code, documentation, and configuration files within the project.
+               [green]write_file[/green]: Create new files or update existing ones.
+
+            [bold yellow]3. Email Dispatch[/bold yellow]
+               [green]send_email[/green]: Compose and send emails via SMTP (supports plain text and responsive HTML).
+
+            [bold yellow]4. Memory & Knowledge Base[/bold yellow]
+               • [green]update_user_profile[/green]: Automatically record new facts, preferences, and tech stack in `USER.md`.
+               • [green]Memory Logging[/green]: Log context, active tasks, and decisions into daily memory files.
             """))
                 continue
 
